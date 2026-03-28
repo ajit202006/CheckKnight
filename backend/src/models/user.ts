@@ -1,40 +1,26 @@
-import { Schema, model } from 'mongoose';
-import bcrypt from 'bcryptjs';
-
-// Define interface for User document
-interface IUser {
-    name: string,
-    email: string,
-    password: string,
-    rating: Number,
-    gamesPlayed: Number,
-    gamesWon: Number,
-    gamesDrawn: Number,
-    playedAsWhite: Number,
-    wonAsWhite: Number,
-    drawAsWhite: Number,
-    comparePassword(candidatePassword: string): Promise<boolean>
-}
+import { Schema, model } from "mongoose";
+import bcrypt from "bcryptjs";
+import { IUser } from "../lib/interfaces";
 
 // Create User Schema
 const userSchema = new Schema(
     {
         name: {
             type: String,
-            required: [true, 'Please add a name']
+            required: [true, "Please add a name"]
         },
         email: {
             type: String,
-            required: [true, 'Please add an email'],
+            required: [true, "Please add an email"],
             unique: true,
             match: [
                 /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
-                'Please add a valid email'
+                "Please add a valid email"
             ]
         },
         password: {
             type: String,
-            required: [true, 'Please add a password'],
+            required: [true, "Please add a password"],
             minlength: 6,
             select: false
         },
@@ -71,8 +57,8 @@ const userSchema = new Schema(
 );
 
 // Hash password before saving user
-userSchema.pre('save', async function () {
-    if (!this.isModified('password')) {
+userSchema.pre("save", async function () {
+    if (!this.isModified("password")) {
         return;
     }
 
@@ -87,5 +73,5 @@ userSchema.methods.comparePassword = async function (candidatePassword: string):
 };
 
 // Create and export User model
-const User = model<IUser>('User', userSchema);
+const User = model<IUser>("User", userSchema);
 export default User;
