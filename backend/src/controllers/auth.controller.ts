@@ -1,6 +1,6 @@
 import { RequestHandler } from "express";
 import User from "../models/user";
-import { generateToken } from "../utils/helper";
+import { generateToken } from "../lib/utils";
 
 // @desc    Register new user
 // @route   POST /api/auth/register
